@@ -1,0 +1,42 @@
+<html>
+<head><title>For...In F2C</title></head>
+<body>
+
+<script type="text/javascript">
+  var aryFahr = new Array(60, 55, 50)
+
+  for (var i = 0; i < 3; i++)
+    document.write("Day " + i + ": " + aryFahr[i] + " \xB0 F <br />");
+
+
+  aryFahr[10] = -19
+  document.write("Day 10: " + aryFahr[10] + "\xB0 F<br />");
+
+
+
+  document.write("<br /><br />");
+  for (i in aryFahr)
+    document.write("Day " + i + ": " + Math.round((aryFahr[i]-32) * 5/9) + "\xB0 C<br />");
+
+  var myString = "Welcome to Wrox books. ";
+  myString = myString + "The Wrox website is www.wrox.com";
+  myString = myString + "Visit the Wrox website today. Thanks for buying Wrox";
+  
+  var foundAtPosition = 0;
+  var wroxCount = 0;
+
+  while (foundAtPosition != -1) {
+    foundAtPosition = mySring.indexOf("Wrox", foundAtPosition);
+      
+    if (foundAtPosition != -1) {
+      wroxCount++;
+      foundAtPosition++;
+    }
+
+
+  }
+  document.write(myString + "<br /><br />There are " + wroxCount + " occurrences of the word Wrox");
+</script>
+  
+</body>
+</html>

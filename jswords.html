@@ -1,0 +1,23 @@
+<script type="text/javascript">
+var wrd1 = prompt("Enter the first word:", "kumquat");
+var wrd2 = prompt("Enter the second word:", "fortunate");
+var pos;
+var ary = new Array();
+
+len2 = wrd2.length; len1 = wrd1.length;
+ary.length = len1;
+for (i=0; i<=len1; i++) {
+  ary[i] = "*";
+}
+for (i=0; i<len2; i++) {
+  char = wrd2.charAt(i);
+  pos = wrd1.indexOf(char);
+  while (pos != -1) {
+    ary[pos] = char;
+    pos = wrd1.indexOf(char, pos+1);
+  }
+}
+for (i=0; i<len1; i++) {
+  document.write(ary[i]);
+}
+</script>

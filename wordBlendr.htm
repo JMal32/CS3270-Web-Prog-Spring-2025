@@ -1,0 +1,32 @@
+
+<html>
+<head><title>WordBlendr</title>
+<script type="text/javascript">
+function wordBlendr(wrd1, wrd2) {
+  var pos;
+  var ary = new Array();
+  len2 = wrd2.length; len1 = wrd1.length;
+  ary.length = len1;
+  for (i=0; i<len1; i++) { // Initialize ary
+    ary[i] = "*";
+  }
+    for (i=0; i<len2; i++) { // For each char in word2
+      char = wrd2.charAt(i); // get char
+      pos = wrd1.indexOf(char); // get its position
+    }
+    while (pos != -1) {
+    ary[pos] = char;
+    pos = wrd1.indexOf(char, pos+1); // get new position
+  
+  }
+  for (i=0; i<len1; i++) { // Print out array contents
+    document.write(ary[i]);
+  }
+}
+</script>
+</head>
+<body>
+<script type="text/javascript">
+wordBlendr("kumquat", "fortunate");
+</script>
+  </body></html>

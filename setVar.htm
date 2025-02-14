@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Page Title Goes Here</title>
+    <meta charset="utf-8">
+<script type="text/javascript">
+  function btnClik_onclick() {
+    var strAddr = window.location.href;
+    var nuAddr;
+    nuAddr = setVar(strAddr, "cat", 1);
+    if (nuAddr == strAddr) {
+      nuAddr = setVar(strAddr, "cats", 2);
+    }
+    window.location.href = nuAddr;
+  }
+  function setVar(addr, key, val) {
+    var tmp = addr.toLowerCase();  
+  }
+</script>
+<script type="text/javascript">
+  function setVar(addr, key, val) {
+    var tmp = addr.toLowerCase();
+    var blnQuest = false;
+    var pos, pos2, varname, varval;
+
+    key=key.toLowerCase();
+    blnQuest = (tmp.indexOf("?") > -1);
+
+    if (blnQuest) {
+      pos = tmp.indexOf(key + "=");
+      if (pos > -1) {
+        pos = pos + key.length + 1;
+        pos2 = tmp.indexOf("&", pos + 1);
+        if (pos2 > -1) {
+          tmp = addr.substring(0, pos) + val + addr.substring(pos2);
+
+        }
+        else {
+          tmp = addr.substring(0, pos) + val;
+        }
+    }
+    else {
+      tmp = addr + "&" + key + "=" + val;
+    }
+    else {
+      tmp = addr + "?" + key + "=" + val;
+    }
+    return tmp;
+  }
+
+</script>
+</head>
+<body>
+</html>
+
+

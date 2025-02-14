@@ -1,0 +1,35 @@
+<script type="text/javascript">
+function btnClik_onclick() {
+  var cliks = 0;
+  var strAddr = window.location.href; // Get page address
+  if (strAddr.indexOf("?") == -1) {
+    nuAddr = strAddr + "?cliks=1"; // Add "?", cliks
+  }
+  else {
+    pos = strAddr.indexOf("cliks="); // get cliks
+    cliks = parseInt(strAddr.substring(pos+6));
+    cliks++; // increment
+    nuAddr = strAddr.substr(0,pos+6) + cliks; // generate new
+}
+window.location.href = nuAddr; // GO TO NEW ADDRESS
+}
+</script>
+</head>
+<body>
+<form action="" name="form1"> <!-- Create form, with button -->
+<input type="button" value="Click Me" name="btnClik" onclick="btnClik_onclick()" />
+  </form>
+
+<script type="text/javascript">
+  var strAddr, pos;
+  var cliks = 0;
+  strAddr = window.location.href; // Get page address
+  if (strAddr.indexOf("?") == -1) {
+    document.write("");
+  }
+  else {
+    pos = strAddr.indexOf("cliks="); // get cliks
+    cliks = parseInt(strAddr.substring(pos+6));
+}
+  document.write("Page: " + cliks + "<br />");
+  </script>
