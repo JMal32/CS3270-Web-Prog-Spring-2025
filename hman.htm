@@ -1,90 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hangman Game</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .word { font-size: 2em; letter-spacing: 0.5em; }
-        .message { margin-top: 20px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Hangman Game</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #word { font-size: 2em; letter-spacing: 0.5em; margin-bottom: 20px; }
+    #message { margin-top: 20px; font-weight: bold; }
+  </style>
 </head>
 <body>
-    <h1>Hangman Game</h1>
-    <div class="word" id="word"></div>
-    <div class="message" id="message"></div>
-    <div id="formContainer"></div>
-    <script>
-        const secretWord = "javascript"; // Hard-coded secret word
-        let guessedLetters = getVar('guessedLetters') ? getVar('guessedLetters').split(',') : [];
-        let attempts = getVar('attempts') || 6;
+  <h1>Hangman Game</h1>
+  <div id="word"></div>
+  <div id="message"></div>
+  <div id="formContainer"></div>
+  <div>
+    <img id="hangmanImage" src="H0.GIF" alt="Hangman Image">
+  </div>
+  
+  <script>
+    var secretWord = "javascript";
+    var guessedLetters = [];
+    var attempts = 14;
+ 
+    function getVar(key) {
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] === key) return pair[1];
+      }
+      return null;
+    }
+ 
+    function setVar(addr, key, val) {
+      if (addr.indexOf("?") === -1)
+        return addr + "?" + key + "=" + val;
+      if (addr.indexOf(key + "=") !== -1) {
+        var prefix = addr.substring(0, addr.indexOf(key + "="));
+        var suffix = "";
+        var ampPos = addr.indexOf("&", addr.indexOf(key + "="));
+        if (ampPos !== -1)
+          suffix = addr.substring(ampPos);
+        return prefix + key + "=" + val + suffix;
+      } else
+        return addr + "&" + key + "=" + val;
+    }
 
-        function setVar(name, value) {
-            const url = new URL(window.location);
-            url.searchParams.set(name, value);
-            window.history.pushState({}, '', url);
-        }
+    // Load game state 
+    var gl = getVar("guessedLetters");
+    if (gl) guessedLetters = gl.split(",");
+    var att = getVar("attempts");
+    if (att) attempts = parseInt(att);
 
-        function getVar(name) {
-            const url = new URL(window.location);
-            return url.searchParams.get(name);
-        }
+    // Checks if the character is a valid letter (a-z)
+    function isValid(ch) {
+      return /^[a-z]$/.test(ch);
+    }
 
-        function isValid(ch) {
-            return /^[a-z]$/.test(ch);
-        }
+    // Update the displayed word and hangman image
+    function updateDisplay() {
+      var display = "";
+      for (var i = 0; i < secretWord.length; i++) {
+        var letter = secretWord.charAt(i);
+        display += (guessedLetters.indexOf(letter) !== -1 ? letter : "_") + " ";
+      }
+      document.getElementById("word").textContent = display;
+      document.getElementById("hangmanImage").src = "H" + (14 - attempts) + ".GIF";
+    }
 
-        function updateWordDisplay() {
-            const wordDisplay = secretWord.split('').map(letter => guessedLetters.includes(letter) ? letter : '_').join(' ');
-            document.getElementById('word').textContent = wordDisplay;
-        }
-
-        function checkGameStatus() {
-            const wordDisplay = document.getElementById('word').textContent.replace(/\s/g, '');
-            if (wordDisplay === secretWord) {
-                document.getElementById('message').textContent = "Congratulations! You've won!";
-                document.getElementById('formContainer').innerHTML = '';
-            } else if (attempts <= 0) {
-                document.getElementById('message').textContent = `Game Over! The word was "${secretWord}".`;
-                document.getElementById('formContainer').innerHTML = '';
+    // Check win or loss conditions - returns true if game over.
+    function checkGameStatus() {
+      var current = "";
+      for (var i = 0; i < secretWord.length; i++) {
+        var letter = secretWord.charAt(i);
+        current += (guessedLetters.indexOf(letter) !== -1 ? letter : "_");
+      }
+      if (current === secretWord) {
+        document.getElementById("message").textContent = "Congratulations! You've won!";
+        return true;
+      }
+      if (attempts <= 0) {
+        document.getElementById("message").textContent = "Game Over! The word was " + secretWord;
+        return true;
+      }
+      return false;
+    }
+ 
+    function PrintForm() {
+      if (checkGameStatus()) {
+        document.getElementById("formContainer").innerHTML = "";
+      } else {
+        document.getElementById("formContainer").innerHTML =
+          '<form id="guessForm"><input type="text" id="guess" maxlength="1" required> ' +
+          '<button type="submit">Guess</button></form>';
+        document.getElementById("guessForm").onsubmit = function(e) {
+          e.preventDefault();
+          var guess = document.getElementById("guess").value.trim().toLowerCase();
+          // Used a while-loop to force a valid letter if the user wants to be silly and enter random stuff - I know you said we didn't have to, but I wanted to. :)
+          while (guess === "" || !isValid(guess.charAt(0))) {
+            guess = prompt("Enter a valid letter (a-z):");
+            if (guess === null) break;
+            guess = guess.trim().toLowerCase();
+          }
+          if (guess) {
+            guess = guess.charAt(0);
+            if (guessedLetters.indexOf(guess) === -1) {
+              if (secretWord.indexOf(guess) !== -1)
+                guessedLetters.push(guess);
+              else
+                attempts--;
             }
-        }
 
-        function PrintForm() {
-            if (attempts > 0 && document.getElementById('word').textContent.replace(/\s/g, '') !== secretWord) {
-                document.getElementById('formContainer').innerHTML = `
-                    <form id="guessForm">
-                        <input type="text" id="guess" maxlength="1" required>
-                        <button type="submit">Guess</button>
-                    </form>
-                `;
-                document.getElementById('guessForm').addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    const guess = document.getElementById('guess').value.toLowerCase();
-                    document.getElementById('guess').value = '';
+            var newUrl = window.location.href.split("?")[0];
+            newUrl = setVar(newUrl, "guessedLetters", guessedLetters.join(","));
+            newUrl = setVar(newUrl, "attempts", attempts);
+            window.location.href = newUrl;
+          }
+        };
+      }
+    }
 
-                    if (isValid(guess)) {
-                        if (!guessedLetters.includes(guess) && secretWord.includes(guess)) {
-                            guessedLetters.push(guess);
-                        } else {
-                            attempts--;
-                        }
-
-                        setVar('guessedLetters', guessedLetters.join(','));
-                        setVar('attempts', attempts);
-                    }
-
-                    updateWordDisplay();
-                    checkGameStatus();
-                    PrintForm();
-                });
-            }
-        }
-
-        updateWordDisplay();
-        checkGameStatus();
-        PrintForm();
-    </script>
+    updateDisplay();
+    PrintForm();
+  </script>
 </body>
 </html>
