@@ -1,0 +1,28 @@
+1. int strlen(string $string)  <= This signature was given to us.
+    This will return the length of the given string.
+    It will return an integer that represents the # of characters in the string.
+
+2. string strstr(string $haystac, $needl [, bool $B4needle = False]) <= This signature was given to us.
+      This will search the string $hackstack for the first occurance of $needle.
+      It's handled as a boolean and will return True or False depending on if it finds $needle
+
+3. int strpos(string $haystack, $needle [, int $offset = 0]) <= This signature was given to us.
+    This finds the position of the first occurance of $needle in $haystack starting at that $offset position
+    It returns an integer indicating the position of the frst occurance of $needle
+
+4. string substr(string $string, int $start [, int $length])
+    This will return a portion of $string and starts at the $start position and you can specify how much is returned with $length
+    It returns a string which is just a portion of the bigger string.
+
+5. string substr_replace(string $string, string $placement, int $start [, int $length])
+    This will replace a part of $string with $replacement. You can specify the $start and $length.
+    It returns the modified string.
+
+6. int strcmp(string $str1, string $str2)
+    This wil compare $str1 with $str2
+    It returns an integer that can be less than, equal to, or greater than 0 if $str1 is found to be any of those parameters against $str2
+
+7. PHP_EOL
+    This is a predefined PHP string constant that represents end-of-line characters.
+    You use this to ensure that correct end-of-line characters are used when you hve strings that need line breaks. 
+  
