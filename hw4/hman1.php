@@ -1,15 +1,21 @@
 <?php
+$words = ['RUST', 'ZIG', 'CPLUSPLUS', 'PHP', 'ASTROPHYSICS', 'QUANTUM'];
+
 // Function to determine which hangman image to display based on wrong guesses
 function getHangmanImage($wrongGuesses)
 {
-    return "H" . $wrongGuesses . ".gif";
+    return "H" . $wrongGuesses . ".GIF";
 }
 
 // Initialize variables from form submission
 $guess = isset($_POST['txtGuess']) ? strtoupper(trim($_POST['txtGuess'])) : '';
 $guessedLetters = isset($_POST['hidGuessed']) ? $_POST['hidGuessed'] : '';
+$rightGuesses = isset($_POST['hidRite']) ? (int)$_POST['hidRite'] : 0;
 $wrongGuesses = isset($_POST['hidRong']) ? (int)$_POST['hidRong'] : 0;
-$gameOver = ($wrongGuesses >= 6);
+
+// This is where I made the variable to select a random word from words
+$seekritWord = isset($_POST['hidWord']) ? $_POST['hidWord'] : $words[array_rand($words)];
+$gameOver = ($wrongGuesses >= 9);
 $message = "";
 
 // Checking that there's a guess and the game is still going
@@ -25,7 +31,7 @@ if (!empty($guess) && !$gameOver) {
             $wrongGuesses++;
 
             // Check if game over after this guess
-            if ($wrongGuesses >= 6) {
+            if ($wrongGuesses >= 9) {
                 $gameOver = true;
             }
         } else {
@@ -39,8 +45,8 @@ if (!empty($guess) && !$gameOver) {
 // Get the current image
 $currentImage = getHangmanImage($wrongGuesses);
 
-// Showing the user a fake word display so they think that some word is chosen
-$wordLength = 5; // Choose a common word length
+
+$wordLength = strlen($seekritWord);
 $displayWord = "";
 
 for ($i = 0; $i < $wordLength; $i++) {
@@ -52,39 +58,40 @@ for ($i = 0; $i < $wordLength; $i++) {
 <html>
 
 <head>
-    <title>Evil Hangman</title>
+  <title>Evil Hangman</title>
 </head>
 
 <body>
-    <h1>Evil Hangman</h1><br />
-    <!-- I used drop ins for the variables like in the instrucitons, but I also figured
+  <h1>Evil Hangman</h1><br />
+  <!-- I used drop-ins for the variables like in the instrucitons, but I also figured
     out that I can drop php functions with drop-in tags as well. I think this setup is pretty cool -->
-    <?php if ($gameOver): ?>
-        <p>Game Over! You lost!</p>
-        <p>The word was: "NEVER" as in, YOU'LL NEVER WIN</p>
-        <img src='<?= $currentImage ?>' border=1><br /><br>
-        <a href="hman0.htm">Play Again</a>
-    <?php else: ?>
-        <p>Guess a letter, and click 'Guess!'</p>
+  <?php if ($gameOver): ?>
+    <p>Game Over! You lost!</p>
+    <p>The word was: <?= $seekritWord ?> </p>
+    <img src='<?= $currentImage ?>' border=1><br /><br>
+    <a href="hman0.htm">Play Again</a>
+  <?php else: ?>
+    <p>Guess a letter, and click 'Guess!'</p>
 
-        <?php if (!empty($message)): ?>
-            <p style="color: red;"><?= $message ?></p>
-        <?php endif; ?>
-
-        <p>Word: <?= $displayWord ?></p>
-
-        <p>Guessed letters: <?= chunk_split($guessedLetters, 1, " ") ?></p>
-
-        <form action="hman0.php" method="POST" name="form1">
-            <input type='text' name='txtGuess' value='' maxlength="1" />
-            <input type='hidden' name='hidRite' value='' />
-            <input type='hidden' name='hidRong' value='<?= $wrongGuesses ?>' />
-            <input type='hidden' name='hidGuessed' value='<?= $guessedLetters ?>' />
-            <input type='submit' value='Guess!' name='btnGuess' />
-        </form><br>
-
-        <img src='<?= $currentImage ?>' border=1><br /><br>
+    <?php if (!empty($message)): ?>
+      <p style="color: red;"><?= $message ?></p>
     <?php endif; ?>
+
+    <p>Word: <?= $displayWord ?></p>
+
+    <p>Guessed letters: <?= chunk_split($guessedLetters, 1, " ") ?></p>
+
+    <form action="hman0.php" method="POST" name="form1">
+      <input type='text' name='txtGuess' value='' maxlength="1" />
+      <input type='hidden' name='hidRite' value='<?= $rightGuesses ?>' />
+      <input type='hidden' name='hidRong' value='<?= $wrongGuesses ?>' />
+      <input type='hidden' name='hidGuessed' value='<?= $guessedLetters ?>' />
+      <input type='hidden' name='hidWord' value='<?= $seekritWord ?>' />
+      <input type='submit' value='Guess!' name='btnGuess' />
+    </form><br>
+
+    <img src='<?= $currentImage ?>' border=1><br /><br>
+  <?php endif; ?>
 </body>
 
 </html>
