@@ -22,14 +22,16 @@ $message = "";
 if (!empty($guess) && !$gameOver) {
     // ctype_alpha() is checking to make sure the string is a character type and we're also checking strlen to make sure the user only inputs 1 char
     if (strlen($guess) == 1 && ctype_alpha($guess)) {
-        // Using the === operator we talked about in class to compare guessedLetters with guess to make sure they're the same type
+        // Using the === operator we talked about in class to compare the two strings to see if they're identical in values and data type
         if (strpos($guessedLetters, $guess) === false) {
             // This is the string concatination operator that I found I can use to add the user's guess to the guessedLetters variable
             $guessedLetters .= $guess;
 
-            // This is Evil Hangman, so every guess is a wrong guess :)
-            $wrongGuesses++;
-
+            if (strpos($seekritWord, $guess) !== false) {
+                $rightGuesses++;
+            } else {
+                $wrongGuesses++;
+            }
             // Check if game over after this guess
             if ($wrongGuesses >= 9) {
                 $gameOver = true;
@@ -45,12 +47,30 @@ if (!empty($guess) && !$gameOver) {
 // Get the current image
 $currentImage = getHangmanImage($wrongGuesses);
 
+// This is where I put in the display blanks and how it fills in the letters when guessed
+$displayWord = '';
+for ($i = 0; $i < strlen($seekritWord); $i++) {
+    if (strpos($guessedLetters, $seekritWord[$i]) !== false) {
+        $displayWord .= $seekritWord[$i] . ' ';
+    } else {
+        $displayWord .= '_ ';
+    }
+}
 
-$wordLength = strlen($seekritWord);
-$displayWord = "";
 
-for ($i = 0; $i < $wordLength; $i++) {
-    $displayWord .= "_ ";
+// This is where I'm ckecking if the guessed letters match the seekritWord
+// This will iterate thru the length of the word while checking if the position of the guessed words
+// matches the position in the seekritWord. If they all match, it returns false and we break out.
+$allGuesses = true;
+for ($i = 0; $i < strlen($seekritWord); $i++) {
+    if (strpos($guessedLetters, $seekritWord[$i]) === false) {
+        $allGuesses = true;
+        break;
+    }
+    if ($allGuesses) {
+        $gameOver = true;
+        $message = "You win!";
+    }
 }
 ?>
 
@@ -58,18 +78,18 @@ for ($i = 0; $i < $wordLength; $i++) {
 <html>
 
 <head>
-  <title>Evil Hangman</title>
+  <title>PHP Hangman</title>
 </head>
 
 <body>
-  <h1>Evil Hangman</h1><br />
+  <h1>PHP Hangman</h1><br />
   <!-- I used drop-ins for the variables like in the instrucitons, but I also figured
     out that I can drop php functions with drop-in tags as well. I think this setup is pretty cool -->
   <?php if ($gameOver): ?>
     <p>Game Over! You lost!</p>
     <p>The word was: <?= $seekritWord ?> </p>
     <img src='<?= $currentImage ?>' border=1><br /><br>
-    <a href="hman0.htm">Play Again</a>
+    <a href="hman1.htm">Play Again</a>
   <?php else: ?>
     <p>Guess a letter, and click 'Guess!'</p>
 
@@ -81,7 +101,7 @@ for ($i = 0; $i < $wordLength; $i++) {
 
     <p>Guessed letters: <?= chunk_split($guessedLetters, 1, " ") ?></p>
 
-    <form action="hman0.php" method="POST" name="form1">
+    <form action="hman1.php" method="POST" name="form1">
       <input type='text' name='txtGuess' value='' maxlength="1" />
       <input type='hidden' name='hidRite' value='<?= $rightGuesses ?>' />
       <input type='hidden' name='hidRong' value='<?= $wrongGuesses ?>' />
