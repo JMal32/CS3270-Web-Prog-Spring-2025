@@ -1,55 +1,56 @@
 Detailed Explanation
 
 1. PHP_clone.htm (Launch Page):
-	•	Purpose:
+• Purpose:
 Provides an HTML form for users to enter a URL of a webpage.
-	•	How It Works:
-	•	Contains a single text input for the URL and a submit button.
-	•	Uses the GET method to send the user’s input to PHP_clone.php when the form is submitted.
+• How It Works:
+• Contains a single text input for the URL and a submit button.
+• Uses the GET method to send the user’s input to PHP_clone.php when the form is submitted.
 
 2. PHP_clone.php (Processing Script):
 
 This script is responsible for two main tasks:
-	•	Downloading the HTML source code from the user-provided URL.
-	•	Reformatting (prettifying) that HTML so it is easier to read.
+• Downloading the HTML source code from the user-provided URL.
+• Reformatting (prettifying) that HTML so it is easier to read.
 
 a. Downloading HTML Source with cURL
-	•	Function: getWebPageSource($url)
-	•	What It Does:
-	•	Checks if the cURL extension is available.
-	•	Initializes a cURL session with the provided URL.
-	•	Sets several options:
-	•	Returns the response as a string.
-	•	Follows any redirects.
-	•	Uses a browser-like User-Agent string.
-	•	Bypasses SSL certificate verification.
-	•	Executes the cURL session and retrieves the HTML content.
-	•	If there is an error during retrieval, it outputs the error message.
-	•	Returns the HTML content if successful.
+• Function: getWebPageSource($url)
+• What It Does:
+• Checks if the cURL extension is available.
+• Initializes a cURL session with the provided URL.
+• Sets several options:
+• Returns the response as a string.
+• Follows any redirects.
+• Uses a browser-like User-Agent string.
+• Bypasses SSL certificate verification.
+• Executes the cURL session and retrieves the HTML content.
+• If there is an error during retrieval, it outputs the error message.
+• Returns the HTML content if successful.
 
 b. Prettifying the HTML Source
-	•	Function: prettifyHTML($html)
-	•	What It Does:
-	•	Uses preg_split with a regular expression to break the HTML into tokens.
-	•	Tokens include HTML tags and the text between them.
-	•	Initializes an indentation counter ($indent) starting at 0.
-	•	Iterates through each token:
-	•	If the token is a closing tag:
-	•	Decreases the indent level.
-	•	Outputs the tag on a new line with the updated indentation.
-	•	If the token is an opening tag:
-	•	Outputs the tag on a new line with the current indentation.
-	•	Increases the indent level if the tag is not self-closing.
-	•	If the token is text content:
-	•	Trims and outputs it on a new line with the current indentation (if not empty).
-	•	Returns the entire reformatted HTML as a string.
+• Function: prettifyHTML($html)
+• What It Does:
+• Uses preg_split with a regular expression to break the HTML into tokens.
+• Tokens include HTML tags and the text between them.
+• Initializes an indentation counter ($indent) starting at 0.
+• Iterates through each token:
+• If the token is a closing tag:
+• Decreases the indent level.
+• Outputs the tag on a new line with the updated indentation.
+• If the token is an opening tag:
+• Outputs the tag on a new line with the current indentation.
+• Increases the indent level if the tag is not self-closing.
+• If the token is text content:
+• Trims and outputs it on a new line with the current indentation (if not empty).
+• Returns the entire reformatted HTML as a string.
 
 c. Main Execution Flow in PHP_clone.php
-	•	Checks if a URL was provided via the GET request.
-	•	Calls getWebPageSource($url) to retrieve the HTML content.
-	•	If the content is successfully retrieved:
-	•	Passes the HTML to prettifyHTML($html) to reformat it.
-	•	Outputs the prettified HTML within <pre> tags (using htmlspecialchars to preserve formatting in the browser).
+• Checks if a URL was provided via the GET request.
+• Calls getWebPageSource($url) to retrieve the HTML content.
+• If the content is successfully retrieved:
+• Passes the HTML to prettifyHTML($html) to reformat it.
+• Outputs the prettified HTML within
+<pre> tags (using htmlspecialchars to preserve formatting in the browser).
 •	If no URL is provided or an error occurs, it displays an appropriate message.
 
 Overall Summary
@@ -116,5 +117,3 @@ FUNCTION prettifyHTML(html):
 END FUNCTION
 
 END
-
-
