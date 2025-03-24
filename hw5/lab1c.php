@@ -55,6 +55,8 @@
     <h3>Create Your Own Custom Array</h3>
     <form method="post">
         Enter number of columns (2-20):
+        <!-- This took me a bit to understand and do, but I like how it works.
+        It starts by checking if colno exists in POST data. If yes, use that value; if not, default to 20 -->
         <input type="number" name="colno" min="2" max="20" value="<?php echo isset($_POST['colno']) ? $_POST['colno'] : 0; ?>">
         <input type="submit" value="Submit">
     </form>
