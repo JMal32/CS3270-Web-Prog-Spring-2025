@@ -1,0 +1,4 @@
+
+<?php
+$sqlLogin = new mysqli('localhost', 'jmalone', 'pz0348yv', 'jmalone');
+?>
