@@ -1,0 +1,26 @@
+flowchart TD
+  subgraph Page["Reef Encounter – initial page"]
+    direction TB
+    Nav["1  Global Navigation"]
+    Players["2  Player Panels"]
+    Hand["3  Behind the Screen"]
+    Actions["4  Control Panel<br/>(Choose an Action)"]
+    subgraph BoardGrid["5  Board Area"]
+      Reef1["Reef A"]
+      Reef2["Reef B"]
+      Supply["Open‑Sea Supply"]
+      Alga["Alga Cylinder Space"]
+    end
+    Footer["6  Credits & Links"]
+  end
+
+  Nav --> Players --> Hand --> Actions --> BoardGrid --> Footer
+
+  %% call‑outs where PHP is needed
+  classDef dyn fill:#ffc,parentstroke-width:2;
+  Players:::dyn
+  Hand:::dyn
+  Actions:::dyn
+  Reef1:::dyn
+  Reef2:::dyn
+  Supply:::dyn
