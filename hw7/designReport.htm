@@ -1,0 +1,160 @@
+<h2>Reef Encounter – Design Phase Report</h2>
+
+
+<hr>
+
+<h3>Basic Wire‑frame</h3>
+<p>See <a href="images/wireframe.png">wireframe.png</a> for a labelled layout of the initial page.</p>
+
+<h3>Graphics Resources</h3>
+
+<p><b>What are the names of the identifying player_color‑swatches (used in front of the player‑names)?</b><br>
+  P.gif, G.gif &nbsp;(<i>P</i> for pink, <i>G</i> for green – one per player colour).</p>
+
+<p><b>Where are these located in your image directory file‑structure?</b><br>
+  <code>/images/</code> root (same level as <code>pbw.css</code>).
+</p>
+
+<p><b>What are the names of the matching shrimp pieces?</b><br>
+  sP.gif, sG.gif, sO.gif, sY.gif (one per player colour).</p>
+
+<p><b>In which two (or more) regions of the basic wire‑frame will these be used?</b><br>
+  1. “Behind Your Screen”&nbsp;panel – player supply<br>
+  2. Reef boards – when a shrimp is placed on a coral</p>
+
+<p><b>Where are these located in your image directory file‑structure?</b><br>
+  <code>game/reef/images/</code>
+</p>
+
+<p><b>What are the names of the larva‑cube icons?</b><br>
+  l0.gif (w), l1.gif (y), l2.gif (o), l3.gif (p), l4.gif (g)</p>
+
+<p><b>In which two (or more) regions of the basic wire‑frame will these be used?</b><br>
+  1. “Behind Your Screen”<br>
+  2. Open‑Sea supply strip above the reefs</p>
+
+<p><b>Where are these located in your image directory file‑structure?</b><br>
+  <code>game/reef/images/</code>
+</p>
+
+<p><b>What are the names of the polyp‑tile (what Prof. N called “coral”) graphic files?</b><br>
+  p0.jpg (w), p1.jpg (y), p2.jpg (o), p3.jpg (p), p4.jpg (g)</p>
+
+<p><b>In which five (or more) regions of the basic wire‑frame will these graphics be used?</b><br>
+  1. “Behind Your Screen” supply<br>
+  2. Coral stacks (left of the reefs)<br>
+  3. Consumed‑tiles display (“In Your Parrotfish”)<br>
+  4. Open‑Sea supply<br>
+  5. Main reef boards</p>
+
+<p><b>Where are these located in your image directory file‑structure?</b><br>
+  <code>game/reef/images/</code>
+</p>
+
+<p><b>How are the twenty Dominance‑tile (official name: “coral‑tiles”) graphic files implemented?<br>
+    What graphics resources are used?</b><br>
+  Ten double‑sided GIFs named ct01.gif … ct91.gif (00–98 pattern) — each 32×32 px showing the “strong → weak” arrow for
+  two colour pairs.</p>
+
+<p><b>Where are these located in your image directory file‑structure?</b><br>
+  <code>game/reef/images/</code>
+</p>
+
+<p><b>What are the names of the “alga cylinder” graphics?</b><br>
+  Single PNG named <code>alga.png</code> (plus a tiny 16×16 icon <code>a.gif</code> used in tool‑tips).</p>
+
+<p><b>Where are these located in your image directory file‑structure?</b><br>
+  <code>game/reef/images/</code>
+</p>
+
+<p><b>What are the names of all four reef images?<br>
+    Which two are you using in your implementation?</b><br>
+  b0.jpg, b1.jpg, b2.jpg, b3.jpg — Our 2‑player lab snapshot currently displays <b>b0.jpg</b> (left) and <b>b2.jpg</b>
+  (right). hw6pretty.htm](file-service://file-7F8SXD8XYrH6LLeQbE6gdr)</p>
+
+<p><b>Where are these located in your image directory file‑structure?</b><br>
+  <code>game/reef/images/</code>
+</p>
+
+<h3>Directory structure – keep or change?</h3>
+<p>I will <strong>keep the original SpielByWeb layout</strong> (<code>game/reef/images/</code> plus a handful in root
+  <code>/images/</code>).<br>
+  Rationale: all image URLs inside the captured HTML already point there; refactoring would mean rewriting
+  hundreds of paths and breaking parity with Prof. Neville’s PHP samples. That cost outweighs any benefit.
+</p>
+
+<hr>
+
+<h3>Official component counts</h3>
+
+<table>
+  <tr>
+    <th>Component</th>
+    <th>Total in game</th>
+    <th>Each colour shares</th>
+    <th>Source</th>
+  </tr>
+  <tr>
+    <td>Larva cubes</td>
+    <td>50</td>
+    <td>10 × 5 colours</td>
+    <td>UltraBoardGames rules
+      [oai_citation_attribution:1‡UltraBoardGames](https://www.ultraboardgames.com/reef-encounter/game-rules.php?utm_source=chatgpt.com)
+    </td>
+  </tr>
+  <tr>
+    <td>Polyp tiles</td>
+    <td>200</td>
+    <td>40 × 5 colours</td>
+    <td>UltraBoardGames rules
+      [oai_citation_attribution:2‡UltraBoardGames](https://www.ultraboardgames.com/reef-encounter/game-rules.php?utm_source=chatgpt.com)
+    </td>
+  </tr>
+  <tr>
+    <td>Shrimp pieces</td>
+    <td>16</td>
+    <td>4 per player (max 4 players)</td>
+    <td>Fair Play Games comp‑list
+      [oai_citation_attribution:3‡fairplaygames.com](https://www.fairplaygames.com/gamedisplay.asp?gameid=3256&utm_source=chatgpt.com)
+    </td>
+  </tr>
+  <tr>
+    <td>“Coral” / Dominance tiles</td>
+    <td>10</td>
+    <td>—</td>
+    <td>Fair Play Games comp‑list
+      [oai_citation_attribution:4‡fairplaygames.com](https://www.fairplaygames.com/gamedisplay.asp?gameid=3256&utm_source=chatgpt.com)
+    </td>
+  </tr>
+</table>
+
+<hr>
+
+<h3>Suggested data‑structures &amp; helper functions</h3>
+
+```php
+// 1. Master supply keyed by colour code
+$polypSupply = [
+'w' => array_fill(0, 40, 'p0.jpg'),
+'y' => array_fill(0, 40, 'p1.jpg'),
+'o' => array_fill(0, 40, 'p2.jpg'),
+'p' => array_fill(0, 40, 'p3.jpg'),
+'g' => array_fill(0, 40, 'p4.jpg'),
+];
+
+$larvaSupply = [
+'w' => 10, 'y' => 10, 'o' => 10, 'p' => 10, 'g' => 10
+];
+
+// 2. Player state
+$players = [
+0 => ['tiles' => [], 'cubes' => [], 'shrimp' => ['sG.gif','sG.gif','sG.gif','sG.gif']],
+1 => ['tiles' => [], 'cubes' => [], 'shrimp' => ['sP.gif','sP.gif','sP.gif','sP.gif']]
+];
+
+// 3. Helper – deal N random tiles of any colour
+function dealRandomTiles(&$supply, $n = 6): array {
+$hand = [];
+for ($i=0; $i<$n; $i++) { $col=array_rand($supply); // pick a random colour key $hand[]=array_pop($supply[$col]); //
+  remove from supply if (empty($supply[$col])) unset($supply[$col]); } return $hand; } // initial deal: six tiles to
+  player 0 $players[0]['tiles']=dealRandomTiles($polypSupply, 6);

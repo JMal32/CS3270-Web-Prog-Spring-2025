@@ -1,26 +1,25 @@
-flowchart TD
-  subgraph Page["Reef Encounter – initial page"]
+flowchart TB
+  %% ===== page structure =====
+  subgraph Page["Reef Encounter — initial layout"]
     direction TB
-    Nav["1  Global Navigation"]
-    Players["2  Player Panels"]
-    Hand["3  Behind the Screen"]
-    Actions["4  Control Panel<br/>(Choose an Action)"]
-    subgraph BoardGrid["5  Board Area"]
-      Reef1["Reef A"]
-      Reef2["Reef B"]
-      Supply["Open‑Sea Supply"]
-      Alga["Alga Cylinder Space"]
+    Nav["1  Global Navigation"]
+    Players["2  Player Panels"]:::dyn
+    Hand["3  Behind&nbsp;the&nbsp;Screen"]:::dyn
+    Actions["4  Control&nbsp;Panel"]:::dyn
+
+    subgraph Board["5  Board&nbsp;Area"]
+      ReefA["Reef A"]:::dyn
+      ReefB["Reef B"]:::dyn
+      Supply["Open‑Sea Supply"]:::dyn
+      Alga["Alga Cylinder Space"]:::dyn
     end
-    Footer["6  Credits & Links"]
+
+    Footer["6  Credits & Links"]
   end
 
-  Nav --> Players --> Hand --> Actions --> BoardGrid --> Footer
+  %% ===== flow arrows just for visual order =====
+  Nav --> Players --> Hand --> Actions --> Board --> Footer
 
-  %% call‑outs where PHP is needed
-  classDef dyn fill:#ffc,parentstroke-width:2;
-  Players:::dyn
-  Hand:::dyn
-  Actions:::dyn
-  Reef1:::dyn
-  Reef2:::dyn
-  Supply:::dyn
+  %% ===== styling =====
+  classDef dyn stroke:#3A7BA0,stroke-width:2,stroke-dasharray: 4 2,fill:#F9FAFB;
+  classDef default stroke:#444,fill:#FFFFFF;
